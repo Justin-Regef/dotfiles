@@ -12,6 +12,7 @@ install_macos() {
     fd \
     lazygit \
     node \
+    go \
     fzf \
     cowsay \
     wget \
@@ -40,18 +41,25 @@ install_debian() {
     cmake \
     python3 \
     python3-pip \
+    python3-venv \
+    python3-dev \
+    python3-setuptools \
+    python3-wheel \
     fzf \
     cowsay \
     ripgrep \
     fd-find \
-    build-essential
+    build-essential \
+    golang-go \
+    nodejs \
+    npm
     
   # Create symlink for fd
   if ! command_exists fd && command_exists fdfind; then
     sudo ln -sf "$(which fdfind)" /usr/local/bin/fd
   fi
   
-  # Install Node.js using n
+  # Install Node.js using n if not already installed
   if ! command_exists node; then
     info "Installing Node.js..."
     curl -fsSL https://raw.githubusercontent.com/mklement0/n-install/master/bin/n-install | bash -s -- -y lts
@@ -78,6 +86,7 @@ install_arch() {
     git \
     nodejs \
     npm \
+    go \
     ripgrep \
     fd \
     lazygit \
@@ -87,6 +96,8 @@ install_arch() {
     curl \
     python \
     python-pip \
+    python-setuptools \
+    python-wheel \
     cmake \
     unzip \
     base-devel
@@ -100,6 +111,8 @@ install_fedora() {
   sudo dnf install -y \
     git \
     nodejs \
+    npm \
+    golang \
     ripgrep \
     fd-find \
     fzf \
@@ -108,6 +121,9 @@ install_fedora() {
     curl \
     python3 \
     python3-pip \
+    python3-devel \
+    python3-setuptools \
+    python3-wheel \
     cmake \
     unzip \
     make \
@@ -134,14 +150,61 @@ install_fedora() {
 
 install_python_packages() {
   info "Installing Python packages..."
-  python3 -m pip install --user --upgrade pynvim
+  
+  # Upgrade pip first
+  python3 -m pip install --user --upgrade pip
+  
+  # Install essential packages
+  python3 -m pip install --user --upgrade \
+    pynvim \
+    setuptools \
+    wheel \
+    ruff \
+    black \
+    isort \
+    mypy \
+    python-lsp-server
+    
+  # Create a virtual environment for Mason
+  if [ ! -d "$HOME/.local/share/nvim/mason/packages/python-lsp-server/venv" ]; then
+    python3 -m venv "$HOME/.local/share/nvim/mason/packages/python-lsp-server/venv"
+  fi
+  
   success "Python packages installed"
 }
 
 install_node_packages() {
   info "Installing Node.js packages..."
-  npm install -g neovim
+  
+  # Install global npm packages
+  npm install -g \
+    neovim \
+    typescript \
+    typescript-language-server \
+    eslint \
+    prettier \
+    @typescript-eslint/parser \
+    @typescript-eslint/eslint-plugin \
+    eslint-plugin-prettier \
+    eslint-config-prettier
+    
   success "Node.js packages installed"
+}
+
+install_go_packages() {
+  info "Installing Go packages..."
+  
+  # Install Go tools
+  go install golang.org/x/tools/gopls@latest
+  go install github.com/go-delve/delve/cmd/dlv@latest
+  go install github.com/ramya-rao-a/go-outline@latest
+  go install github.com/cweill/gotests/gotests@latest
+  go install github.com/fatih/gomodifytags@latest
+  go install github.com/josharian/impl@latest
+  go install github.com/haya14busa/goplay/cmd/goplay@latest
+  go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+  
+  success "Go packages installed"
 }
 
 main() {
@@ -169,6 +232,7 @@ main() {
   
   install_python_packages
   install_node_packages
+  install_go_packages
 }
 
 main 

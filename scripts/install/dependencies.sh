@@ -151,11 +151,14 @@ install_fedora() {
 install_python_packages() {
   info "Installing Python packages..."
   
-  # Upgrade pip first
-  python3 -m pip install --user --upgrade pip
+  # Install uv if not already installed
+  if ! command_exists uv; then
+    info "Installing uv..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+  fi
   
-  # Install essential packages
-  python3 -m pip install --user --upgrade \
+  # Use uv to install Python packages
+  uv pip install --user \
     pynvim \
     setuptools \
     wheel \

@@ -48,6 +48,7 @@ Each script is modular and can be run independently. The scripts will automatica
 
 ### Python Development
 - Python 3
+- uv (fast Python package installer)
 - pip
 - Virtual Environment support
 - Development headers

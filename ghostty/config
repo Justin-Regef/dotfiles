@@ -1,0 +1,18 @@
+theme = dark:"Oxocarbon", light:"TokyoNight Day"
+
+# if using a shader, best to use a black theme:
+# theme = "Oxocarbon"
+# custom-shader = shaders/justin_test_chromatic_abberation.glsl
+
+keybind = alt+left=unbind
+keybind = alt+right=unbind
+
+font-family = Menlo
+adjust-cell-height = 8
+adjust-cursor-height = 8
+
+background-opacity = 0.9
+background-blur = 10
+
+macos-option-as-alt = true
+macos-titlebar-proxy-icon = "hidden"

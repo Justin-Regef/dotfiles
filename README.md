@@ -22,6 +22,7 @@ Tools I like:
 - cloudflared
 - cbonsai
 - cowsay
+- croc
 - ffmpeg
 - neofetch
 - curl

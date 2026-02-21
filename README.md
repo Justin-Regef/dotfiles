@@ -26,3 +26,4 @@ Tools I like:
 - ffmpeg
 - neofetch
 - curl
+- ttyd
